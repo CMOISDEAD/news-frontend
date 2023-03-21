@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { postsStore } from "$lib/app.store";
+  import { fetch } from "$lib/app.axios";
+  import { appStore } from "$lib/app.store";
   export let user: UserType;
   let post: PostType = {
     user_id: user.id,
@@ -10,20 +11,13 @@
   };
 
   const handleClick = async () => {
-    const opts = {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(post),
-    };
-    const response = await fetch(
-      "http://www.localhost:3000/posts/create",
-      opts
-    );
-    const newData = await response.json();
-    postsStore.set(newData);
+    const response = await fetch().post("/posts/create");
+    appStore.update(({ user }) => {
+      return {
+        posts: response.data,
+        user: user,
+      };
+    });
   };
 </script>
 

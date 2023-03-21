@@ -1,4 +1,6 @@
 import { writable } from "svelte/store";
 
-export const postsStore = writable([]);
-export const userStore = writable({});
+export const appStore = writable({
+  posts: [],
+  user: {},
+});

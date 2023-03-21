@@ -1,27 +1,17 @@
 <script lang="ts">
+  import { fetch } from "$lib/app.axios";
   import { goto } from "$app/navigation";
-  import { userStore } from "$lib/app.store";
-  let user = {
-    username: "",
-    password: "",
-  };
+  import { appStore } from "$lib/app.store";
+  let user: UserType;
   const handleLogin = async () => {
-    const opts = {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(user),
-    };
     try {
-      const response = await fetch(
-        "http://www.localhost:3000/users/login",
-        opts
-      );
-      const userRes = await response.json();
-      console.log(userRes);
-      userStore.set(userRes);
+      const response = await fetch().post("/users/login", { user });
+      appStore.update(({ posts }) => {
+        return {
+          user: response.data,
+          posts,
+        };
+      });
       goto("/");
     } catch (e) {
       alert("invalid credentials try again");

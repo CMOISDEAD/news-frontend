@@ -1,15 +1,11 @@
 <script lang="ts">
-  export let comment: CommentType, level: number;
+  import { fetch } from "$lib/app.axios";
+  export let comment: CommentType;
   const getUser = async (): Promise<UserType> => {
-    const response = await fetch("http://localhost:3000/users/get-user", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ id: comment.user_id }),
+    const response = await fetch().post("/users/get-user", {
+      id: comment.user_id,
     });
-    return await response.json();
+    return response.data;
   };
   let user: Promise<UserType> = getUser();
 </script>

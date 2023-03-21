@@ -1,14 +1,18 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
-  import { userStore } from "$lib/app.store";
+  import { appStore } from "$lib/app.store";
   let user: UserType;
-  userStore.subscribe((value) => {
-    user = value as UserType;
+  appStore.subscribe((value) => {
+    user = value.user as UserType;
   });
-
   const handleExit = () => {
     alert("See you next!!");
-    userStore.set({});
+    appStore.update(({ posts }) => {
+      return {
+        user: {},
+        posts,
+      };
+    });
     goto("/");
   };
 </script>

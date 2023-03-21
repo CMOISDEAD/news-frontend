@@ -1,30 +1,17 @@
 <script lang="ts">
-  import { postsStore } from "$lib/app.store";
-  import Comments from "$components/comments.svelte";
+  import moment from "moment";
+  import { fetch } from "$lib/app.axios";
   import { comments } from "../../../utils/comments";
   import type { PageData } from "./$types";
   import { goto } from "$app/navigation";
-  import moment from "moment";
+  import Comments from "$components/comments.svelte";
   export let data: PageData;
   let post = data.post;
   let user = data.user;
   let comment: string;
 
   const handleDelete = async () => {
-    const opts = {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ id: post.id }),
-    };
-    const response = await fetch(
-      "http://www.localhost:3000/posts/remove",
-      opts
-    );
-    const newData = await response.json();
-    postsStore.set(newData);
+    await fetch().post("/posts/remove", { id: post.id });
     alert("post removed successfully");
     goto("/");
   };

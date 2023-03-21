@@ -1,20 +1,21 @@
 <script lang="ts">
-  import { onMount } from "svelte";
   import type { PageData } from "./$types";
-  import { postsStore, userStore } from "$lib/app.store";
   import Addpost from "$components/addpost.svelte";
   import PostsList from "$components/postslist.svelte";
   import Banner from "$components/banner.svelte";
+  import { onMount } from "svelte";
+  import { appStore } from "$lib/app.store";
   export let data: PageData;
   let posts: PostType[], user: UserType;
-  postsStore.subscribe((value) => {
-    posts = value;
-  });
-  userStore.subscribe((value) => {
-    user = value;
+  appStore.subscribe((value) => {
+    posts = value.posts as PostType[];
+    user = value.user as UserType;
   });
   onMount(() => {
-    postsStore.set(data.posts);
+    appStore.set({
+      posts: data.posts,
+      user,
+    });
   });
 </script>
 
