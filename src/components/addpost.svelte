@@ -11,7 +11,7 @@
   };
 
   const handleClick = async () => {
-    const response = await fetch().post("/posts/create");
+    const response = await fetch().post("/posts/create", post);
     appStore.update(({ user }) => {
       return {
         posts: response.data,

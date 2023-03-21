@@ -10,7 +10,7 @@
       class="px-2 py-1 border-l border-primary mt-2"
       style={`margin-left: ${level}px;`}
     >
-      <Comment {comment} {level} />
+      <Comment {comment} />
       <svelte:self comments={comment.kids} level={level + 3} />
     </div>
   {:else}
@@ -18,7 +18,7 @@
       class="px-2 py-1 border-l border-primary mt-2"
       style={`margin-left: ${level}px;`}
     >
-      <Comment {comment} {level} />
+      <Comment {comment} />
     </div>
   {/if}
 {:else}

@@ -2,10 +2,15 @@
   import { fetch } from "$lib/app.axios";
   import { goto } from "$app/navigation";
   import { appStore } from "$lib/app.store";
-  let user: UserType;
+  let user: UserType = {
+    id: 0,
+    username: "",
+    email: "",
+    password: "",
+  };
   const handleLogin = async () => {
     try {
-      const response = await fetch().post("/users/login", { user });
+      const response = await fetch().post("/users/login", user);
       appStore.update(({ posts }) => {
         return {
           user: response.data,

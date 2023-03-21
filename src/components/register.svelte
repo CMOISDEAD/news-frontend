@@ -2,10 +2,10 @@
   import { fetch } from "$lib/app.axios";
   import { goto } from "$app/navigation";
   import { appStore } from "$lib/app.store";
-  let user: UserType;
+  let user: UserType = { id: 0, username: "", password: "", email: "" };
   const handleLogin = async () => {
     try {
-      const response = await fetch().post("/users/register", { user });
+      const response = await fetch().post("/users/register", user);
       appStore.update(({ posts }) => {
         return {
           user: response.data,
@@ -38,8 +38,8 @@
     </label>
     <input
       bind:value={user.email}
-      id="username"
-      type="text"
+      id="email"
+      type="email"
       placeholder="email"
       class="input input-bordered w-full max-w-xs"
       required
